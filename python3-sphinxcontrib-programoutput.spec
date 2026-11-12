@@ -7,7 +7,7 @@ Summary:	Sphinx extension to include program output
 Summary(pl.UTF-8):	Rozszerzenie Sphinksa do załączania wyjścia programu
 Name:		python3-sphinxcontrib-programoutput
 Version:	0.20
-Release:	3
+Release:	4
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/sphinxcontrib-programoutput/
@@ -23,9 +23,6 @@ BuildRequires:	python3-setuptools >= 1:61
 BuildRequires:	python3-Sphinx >= 5.0.0
 BuildRequires:	python3-erbsland-sphinx-ansi >= 1.2.4
 BuildRequires:	python3-pytest
-# an installed copy shadows src/ in tests: sphinxcontrib/__init__.py
-# (pkgutil.extend_path) puts site-packages first
-BuildConflicts:	python3-sphinxcontrib-programoutput < %{version}
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -66,9 +63,12 @@ Dokumentacja API modułu Pythona sphinxcontrib-programoutput.
 %py3_build
 
 %if %{with tests}
+# the sphinxcontrib namespace comes from site-packages (nspkg.pth of other
+# sphinxcontrib packages, pkgutil __init__.py), which ignores src/ or puts
+# it after an installed copy; put src/ first explicitly
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTHONPATH=$(pwd)/src \
-%{__python3} -m pytest src
+%{__python3} -c 'import sys, sphinxcontrib, pytest; sphinxcontrib.__path__ = [sys.argv[1], *sphinxcontrib.__path__]; sys.exit(pytest.main(["src"]))' $(pwd)/src/sphinxcontrib
 %endif
 
 %if %{with doc}
