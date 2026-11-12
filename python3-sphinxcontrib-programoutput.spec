@@ -6,22 +6,22 @@
 Summary:	Sphinx extension to include program output
 Summary(pl.UTF-8):	Rozszerzenie Sphinksa do załączania wyjścia programu
 Name:		python3-sphinxcontrib-programoutput
-Version:	0.19
+Version:	0.20
 Release:	1
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/sphinxcontrib-programoutput/
 Source0:	https://files.pythonhosted.org/packages/source/s/sphinxcontrib-programoutput/sphinxcontrib_programoutput-%{version}.tar.gz
-# Source0-md5:	e3084494dd0598612644c02586d0e99f
+# Source0-md5:	ce0623eab95cf96f6bad0e9d0a972349
 URL:		https://pypi.org/project/sphinxcontrib-programoutput/
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
-BuildRequires:	python3-modules >= 1:3.8
-BuildRequires:	python3-setuptools
+BuildRequires:	python3-modules >= 1:3.10
+BuildRequires:	python3-setuptools >= 1:61
 %if %{with tests}
 BuildRequires:	python3-Sphinx >= 5.0.0
-BuildRequires:	python3-erbsland-sphinx-ansi
+BuildRequires:	python3-erbsland-sphinx-ansi >= 1.2.4
 BuildRequires:	python3-pytest
 %endif
 BuildRequires:	rpm-pythonprov
@@ -30,7 +30,7 @@ BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	python3-furo
 BuildRequires:	sphinx-pdg-3 >= 5.0.0
 %endif
-Requires:	python3-modules >= 1:3.8
+Requires:	python3-modules >= 1:3.10
 Requires:	python3-sphinxcontrib
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
