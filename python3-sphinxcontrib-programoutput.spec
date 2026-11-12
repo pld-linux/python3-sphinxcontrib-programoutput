@@ -7,7 +7,7 @@ Summary:	Sphinx extension to include program output
 Summary(pl.UTF-8):	Rozszerzenie Sphinksa do załączania wyjścia programu
 Name:		python3-sphinxcontrib-programoutput
 Version:	0.20
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/sphinxcontrib-programoutput/
@@ -23,6 +23,9 @@ BuildRequires:	python3-setuptools >= 1:61
 BuildRequires:	python3-Sphinx >= 5.0.0
 BuildRequires:	python3-erbsland-sphinx-ansi >= 1.2.4
 BuildRequires:	python3-pytest
+# an installed copy shadows src/ in tests: sphinxcontrib/__init__.py
+# (pkgutil.extend_path) puts site-packages first
+BuildConflicts:	python3-sphinxcontrib-programoutput < %{version}
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
